@@ -1,0 +1,8 @@
+<a routerLink="/">Home</a>
+@if(authService.user()){
+<a href="/logout">Log out</a>
+}
+@else {
+<a routerLink="/login">Login</a>
+<a routerLink="/register">Register</a>
+}

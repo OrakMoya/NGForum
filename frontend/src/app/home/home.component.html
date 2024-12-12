@@ -1,0 +1,9 @@
+@if(authService.user()){
+  <app-new-post-form />
+}
+@for(post of postsService.posts(); track post.id){
+<div>
+  {{post.author?.displayName ?? "[deleted]"}}
+  {{post.contents}}
+</div>
+}

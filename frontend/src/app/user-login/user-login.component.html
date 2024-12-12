@@ -1,0 +1,8 @@
+
+<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="flex flex-col w-fit">
+  <label>E-mail</label>
+  <input formControlName="email" type="email"/>
+  <label>Password</label>
+  <input formControlName="password" type="password"/>
+  <button type="submit">Submit</button>
+</form>
