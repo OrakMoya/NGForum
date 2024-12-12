@@ -1,8 +1,13 @@
-<a routerLink="/">Home</a>
-@if(authService.user()){
-<a href="/logout">Log out</a>
-}
-@else {
-<a routerLink="/login">Login</a>
-<a routerLink="/register">Register</a>
-}
+<div class="flex p-4 gap-4 max-w-screen-xl mx-auto">
+  <a routerLink="/"><app-nav-button>Home</app-nav-button></a>
+
+  @if(authService.user()){
+  <a href="/logout"><app-nav-button>Logout</app-nav-button></a>
+  }
+
+  @else {
+  <a routerLink="/login"><app-nav-button>Login</app-nav-button></a>
+  <a routerLink="/register"><app-nav-button>Register</app-nav-button></a>
+  }
+
+</div>
