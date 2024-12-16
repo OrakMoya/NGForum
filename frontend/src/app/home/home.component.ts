@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { PostsService } from '../posts.service';
 import { NewPostFormComponent } from '../new-post-form/new-post-form.component';
 import { AuthService } from '../auth.service';
+import { PostComponent } from '../post/post.component';
 
 @Component({
   selector: 'app-home',
-  imports: [NewPostFormComponent],
+  imports: [NewPostFormComponent, PostComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

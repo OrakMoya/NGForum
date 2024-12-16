@@ -4,7 +4,8 @@ import { throwExpression } from "../utils/misc";
 import { User } from "../models/user";
 
 export const index = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	let snapshot = await Post.all();
+	let targetAuthor = req.query.userId;
+	let snapshot = targetAuthor && typeof (targetAuthor) == 'string' ? await Post.byAuthorId(targetAuthor) : await Post.all();
 	let posts: Post[] = [];
 	let authorIds: string[] = [];
 

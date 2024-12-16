@@ -1,8 +1,9 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Post } from './types';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, ReplaySubject, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthService } from './auth.service';
 
 
 interface PostsState {
@@ -15,6 +16,7 @@ interface PostsState {
 export class PostsService {
 
   private posts$ = new Subject<Post[]>();
+  private authService = inject(AuthService);
 
   private state = signal<PostsState>({
     posts: null
@@ -48,5 +50,9 @@ export class PostsService {
         replay.next(res);
       });
     return replay;
+  }
+
+  public getPostsByMe() {
+    return this.httpClient.get<Post[]>("/api/posts", { params: { authorId: this.authService.user()?.id ?? '' } })
   }
 }

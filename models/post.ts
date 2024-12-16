@@ -28,4 +28,7 @@ export class Post {
 				}
 			);
 	}
+	static byAuthorId(targetAuthor: string ) {
+		return this.postsRef.where('authorId', '==', targetAuthor).get();
+	}
 }

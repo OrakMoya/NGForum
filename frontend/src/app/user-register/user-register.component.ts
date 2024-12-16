@@ -3,10 +3,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
+import { CardComponent } from '../card/card.component';
+import { InputComponent } from '../input/input.component';
 
 @Component({
   selector: 'app-user-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CardComponent, InputComponent],
   templateUrl: './user-register.component.html',
   styleUrl: './user-register.component.css'
 })

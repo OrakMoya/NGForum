@@ -1,7 +1,8 @@
-<div class="flex p-4 gap-4 max-w-screen-xl mx-auto">
+<div class="flex p-4 gap-4 max-w-screen-md mx-auto">
   <a routerLink="/"><app-nav-button>Home</app-nav-button></a>
 
   @if(authService.user()){
+  <a routerLink="/profile"><app-nav-button>Profile</app-nav-button></a>
   <a href="/logout"><app-nav-button>Logout</app-nav-button></a>
   }
 
