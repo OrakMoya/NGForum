@@ -1,8 +1,10 @@
-<form [formGroup]="postForm" (ngSubmit)="handleSubmit()" class="flex flex-col border border-neutral-500 rounded-md bg-neutral-100">
-  <div class="bg-neutral-200 p-4">
-  <textarea class="w-full bg-transparent min-h-10" placeholder="Type here..." formControlName="contents"></textarea>
+<form [formGroup]="postForm" (ngSubmit)="handleSubmit()"
+  class="flex flex-col justify-start border border-neutral-500 rounded-md bg-neutral-100 overflow-clip">
+  <div class="bg-neutral-200 px-4 py-2">
+    <textarea class="w-full bg-transparent min-h-10" placeholder="Type here..." formControlName="contents"></textarea>
   </div>
-  <div class="px-4 py-2">
-    <button type="submit">Submit</button>
+  <div>
+    <button type="submit" class="px-4 py-2 bg-green-400 disabled:opacity-50 text-sm transition-colors "
+      [disabled]="postForm.invalid">Submit</button>
   </div>
 </form>

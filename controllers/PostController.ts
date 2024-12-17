@@ -5,9 +5,16 @@ import { User } from "../models/user";
 
 export const index = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	let targetAuthor = req.query.userId;
+
 	let snapshot = targetAuthor && typeof (targetAuthor) == 'string' ? await Post.byAuthorId(targetAuthor) : await Post.all();
+	if (snapshot.empty) {
+		res.json([]);
+		return;
+	}
+
 	let posts: Post[] = [];
 	let authorIds: string[] = [];
+
 
 	snapshot.forEach((doc) => {
 		authorIds.push(doc.data().author_id);

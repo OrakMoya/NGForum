@@ -1,4 +1,5 @@
-<app-card >
+<div class="w-full flex justify-center">
+  <app-card>
     <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" class="flex flex-col w-fit">
       <label>Name</label>
       <app-input type="text" placeholder="" formControlName="display_name" />
@@ -13,8 +14,16 @@
       <app-input type="password" placeholder="" formControlName="password" />
 
       <label>Confirm password</label>
-      <app-input type="password" placeholder="" formControlName="password_confirmation" />
+      <app-input type="password" placeholder="" formControlName="password_confirmation" class="mb-2" />
 
-      <button type="submit">Register</button>
+      @if(error){
+      <span class="w-full bg-red-500 text-white flex justify-center px-2 py-1 mb-2 rounded-md">
+        {{error}}
+      </span>
+      }
+
+      <button type="submit" class="bg-green-400 rounded-md px-2 py-1 disabled:opacity-50"
+        [disabled]="registerForm.invalid">Register</button>
     </form>
-</app-card>
+  </app-card>
+</div>

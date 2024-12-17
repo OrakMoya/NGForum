@@ -25,6 +25,6 @@ export function store(req: express.Request, res: express.Response, next: express
 			throw "Fail";
 		}).catch(() => {
 			console.log("login fail");
-			res.status(400).json({error: "Invalid email or password"});
+			res.status(400).json({email: "Invalid email or password"});
 		});
 }

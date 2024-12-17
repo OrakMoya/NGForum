@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Post } from './types';
 import { BehaviorSubject, EMPTY, Observable, ReplaySubject, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -42,9 +42,9 @@ export class PostsService {
 
 
   public addPost(props: { contents: string }) {
-    let replay = new ReplaySubject();
+    let replay = new ReplaySubject<HttpResponse<Object>>();
     this.httpClient
-      .post("/api/posts", props)
+      .post<HttpResponse<Object>>("/api/posts", props)
       .subscribe((res) => {
         this.refreshPosts();
         replay.next(res);

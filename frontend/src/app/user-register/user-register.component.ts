@@ -24,6 +24,8 @@ export class UserRegisterComponent {
     password_confirmation: new FormControl('', [Validators.required, Validators.minLength(5)])
   });
 
+  error = "";
+
   constructor() {
 
   }
@@ -37,8 +39,8 @@ export class UserRegisterComponent {
       password_confirmation: this.registerForm.value.password_confirmation ?? ""
     })
       .pipe(
-        catchError(e => {
-          console.log(e);
+        catchError(status => {
+          this.error = status.error;
           return EMPTY;
         })
       )

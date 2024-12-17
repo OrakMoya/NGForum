@@ -4,7 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { User } from './types';
 
-
+// User ima vrijednost undefined kada jos
+// nije utvrdeno da li je ulogiran ili ne
 interface AuthState {
   user: User | null | undefined;
 }
@@ -17,7 +18,7 @@ export class AuthService {
   private httpClient = inject(HttpClient);
   private user$ = new Subject<User>();
   private state = signal<AuthState>({
-    user: undefined
+    user: undefined,
   });
 
   user = computed(() => this.state().user);
@@ -39,7 +40,6 @@ export class AuthService {
   }
 
   public register(params: { display_name: string, username: string, email: string, password: string, password_confirmation: string }) {
-    let waitingData = new ReplaySubject();
 
     let promise = this.httpClient.post("/api/register", {
       display_name: params.display_name,
@@ -50,31 +50,24 @@ export class AuthService {
     });
     //
     // Refresh auth state after register
-    promise.subscribe((status) => {
-      waitingData.next(status);
-      waitingData.complete();
+    promise.forEach((status) => {
       this.checkAuthState();
     })
 
-    return waitingData;
+    return promise;
   }
 
   public login(email: string, password: string) {
-    let waitingData = new ReplaySubject();
-
     let promise = this.httpClient.post("/api/login", {
       email: email,
       password: password
     });
 
-    // Refresh auth state after login
-    promise.subscribe((status) => {
-      waitingData.next(status);
-      waitingData.complete();
+    promise.forEach(() => {
       this.checkAuthState();
     })
 
-    return waitingData;
+    return promise;
   }
 
 }

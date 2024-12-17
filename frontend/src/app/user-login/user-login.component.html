@@ -1,8 +1,18 @@
+<div class="w-full flex justify-center">
+  <app-card>
+    <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="flex flex-col w-fit">
+      <label>Email</label>
+      <app-input type="email" placeholder="" formControlName="email" />
 
-<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="flex flex-col w-fit">
-  <label>E-mail</label>
-  <input formControlName="email" type="email"/>
-  <label>Password</label>
-  <input formControlName="password" type="password"/>
-  <button type="submit">Submit</button>
-</form>
+      <label>Password</label>
+      <app-input type="password" placeholder="" formControlName="password" class="mb-2" />
+      @if(error){
+      <span>{{error}}</span>
+
+      }
+
+      <button type="submit" class="bg-green-400 rounded-md px-2 py-1 disabled:opacity-50"
+        [disabled]="loginForm.invalid">Log in</button>
+    </form>
+  </app-card>
+</div>
