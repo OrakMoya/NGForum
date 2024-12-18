@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, shareReplay, Subject } from 'rxjs';
 import { User } from './types';
 
 // User ima vrijednost undefined kada jos
@@ -41,31 +41,34 @@ export class AuthService {
 
   public register(params: { display_name: string, username: string, email: string, password: string, password_confirmation: string }) {
 
-    let promise = this.httpClient.post("/api/register", {
-      display_name: params.display_name,
-      username: params.username,
-      email: params.email,
-      password: params.password,
-      password_confirmation: params.password_confirmation
-    });
-    //
-    // Refresh auth state after register
-    promise.forEach((status) => {
-      this.checkAuthState();
-    })
+    let promise = this.httpClient
+      .post("/api/register", {
+        display_name: params.display_name,
+        username: params.username,
+        email: params.email,
+        password: params.password,
+        password_confirmation: params.password_confirmation
+      })
+      .pipe(shareReplay());
+    promise
+      .subscribe((status) => { // Refresh auth state after register
+        this.checkAuthState();
+      })
 
     return promise;
   }
 
   public login(email: string, password: string) {
-    let promise = this.httpClient.post("/api/login", {
-      email: email,
-      password: password
-    });
-
-    promise.forEach(() => {
-      this.checkAuthState();
-    })
+    let promise = this.httpClient
+      .post("/api/login", {
+        email: email,
+        password: password
+      })
+      .pipe(shareReplay());
+    promise
+      .subscribe(() => {
+        this.checkAuthState();
+      })
 
     return promise;
   }

@@ -11,8 +11,12 @@
 
       }
 
-      <button type="submit" class="bg-green-400 rounded-md px-2 py-1 disabled:opacity-50"
-        [disabled]="loginForm.invalid">Log in</button>
+      <button type="submit" class="bg-green-400 rounded-md px-2 py-1 disabled:opacity-50 mb-2"
+        [disabled]="loginForm.invalid">
+        Log in
+      </button>
+      <span class="text-sm wrap italic text-neutral-500">Don't have an account? <a class="underline" [routerLink]="['/register']">Register</a></span>
+
     </form>
   </app-card>
 </div>

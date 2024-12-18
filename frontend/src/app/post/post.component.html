@@ -1,10 +1,38 @@
 <div class="w-full h-full min-h-24 px-4 py-2 border border-neutral-400 bg-neutral-100 rounded-md">
-  <div class="flex flex-col">
+  <div class="flex flex-col justify-between">
     <div>
       <span class="italic text-sm text-neutral-600">
         By {{post().author?.displayName ?? '[deleted]'}} - {{date().toLocaleString()}}
       </span>
     </div>
+    @if(!editing){
     <p class="text-lg">{{post().contents}}</p>
+    }
+    @else{
+    <textarea [(ngModel)]="editedContents"></textarea>
+    }
+
+    @if(authService.user()?.id === post().author_id){
+    <div class="flex gap-x-2 text-sm mt-2">
+      @if(!editing){
+      <button class="text-sm px-1 rounded-md bg-neutral-600 text-white" (click)="startEdit()">
+        Edit
+      </button>
+      }
+      @else{
+      <button [disabled]="editedContents.trim().length===0" (click)="saveEdit()"
+        class="text-sm px-1 rounded-md bg-green-700 text-white disabled:opacity-50">
+        Save
+      </button>
+      <button (click)="cancelEdit()" class="text-sm px-1 rounded-md bg-neutral-600 text-white">
+        Cancel
+      </button>
+      }
+      <button class="text-sm px-1 rounded-md bg-red-600 text-white" (click)="deletePost()">
+        Delete
+      </button>
+    </div>
+
+    }
   </div>
 </div>

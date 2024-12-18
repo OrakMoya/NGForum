@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { catchError, EMPTY } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CardComponent } from '../card/card.component';
 import { InputComponent } from '../input/input.component';
 
 @Component({
   selector: 'app-user-login',
-  imports: [ReactiveFormsModule, CardComponent, InputComponent],
+  imports: [ReactiveFormsModule, CardComponent, InputComponent, RouterLink],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.css'
 })

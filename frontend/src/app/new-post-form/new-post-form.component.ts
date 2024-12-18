@@ -21,8 +21,8 @@ export class NewPostFormComponent {
     this.postService.addPost({
       contents: this.postForm.value.contents
     })
-      .subscribe((e) => {
-        console.log(e.status);
+      .subscribe(() => {
+        this.postForm.reset();
       });
 
   }

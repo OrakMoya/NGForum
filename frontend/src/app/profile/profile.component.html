@@ -1,5 +1,9 @@
+<div class="text-xl font-semibold italic mb-4 indent-0 sm:indent-4">
+  Your posts
+  <span class="animate-spin">{{'('+myPosts().length+')'}}</span>
+</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-  @for(post of myPosts; track post){
+  @for(post of myPosts(); track post){
   <app-post [post]="post" />
   }
 </div>

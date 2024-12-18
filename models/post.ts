@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase-admin/firestore";
 import db from "../utils/database";
 import { User } from "./user";
+import { firestore } from "firebase-admin";
 
 export class Post {
 
@@ -28,7 +29,22 @@ export class Post {
 				}
 			);
 	}
-	static byAuthorId(targetAuthor: string ) {
-		return this.postsRef.where('authorId', '==', targetAuthor).get();
+	public static byAuthorId(targetAuthor: string) {
+		return this.postsRef.where('author_id', '==', targetAuthor).get();
+	}
+
+	public static byId(id: string) {
+		return this.postsRef.where(firestore.FieldPath.documentId(), '==', id).get();
+	}
+
+	public static update(props: { id: any; contents: any; }) {
+		return this.postsRef.doc(props.id)
+			.set({ contents: props.contents }, {
+				merge: true
+			});
+	}
+
+	static delete(id: string) {
+		return this.postsRef.doc(id).delete();
 	}
 }

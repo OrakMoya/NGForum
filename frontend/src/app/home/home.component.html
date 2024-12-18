@@ -1,13 +1,18 @@
+<div class="text-xl font-semibold italic mb-4 indent-0 sm:indent-4">
+  Posts
+  <span class="animate-spin">{{posts() ? '('+posts()?.length+')':''}}</span>
+</div>
+
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-2">
   @if(authService.user()){
   <app-new-post-form />
   }
 
-  @if(!postsService.posts()?.length){
+  @if(!posts()?.length){
   <div class="flex justify-center items-center opacity-50 italic">empty!</div>
   }
 
-  @for(post of postsService.posts(); track post.id){
+  @for(post of posts(); track post.id){
   <app-post class="h-full w-full" [post]="post" />
   }
 </div>

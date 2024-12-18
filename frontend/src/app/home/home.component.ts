@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, computed, Inject, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostsService } from '../posts.service';
 import { NewPostFormComponent } from '../new-post-form/new-post-form.component';
@@ -15,11 +15,16 @@ export class HomeComponent implements OnInit {
   postsService = inject(PostsService);
   authService = inject(AuthService);
   route = inject(ActivatedRoute);
+  posts = computed(() => {
+    let posts = this.postsService.posts();
+    posts?.sort((a, b) => b.timestamp - a.timestamp);
+    return posts;
+  });
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(()=>this.postsService.refreshPosts());
+    this.route.params.subscribe(() => this.postsService.refreshPosts());
   }
 }
