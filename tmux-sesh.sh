@@ -16,7 +16,7 @@ if [ $? != 0 ]; then
 
 	tmux new-window -t $SESH -n "serverfe"
 	tmux send-keys -t $SESH:serverfe "cd frontend" C-m
-	tmux send-keys -t $SESH:serverfe "ng build --watch" C-m
+	tmux send-keys -t $SESH:serverfe "ng build --watch --configuration development" C-m
 	
 	tmux select-window -t $SESH:editorex
 fi
