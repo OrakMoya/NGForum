@@ -5,7 +5,6 @@ import { Router, RouterLink } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 import { CardComponent } from '../card/card.component';
 import { InputComponent } from '../input/input.component';
-import { error } from 'console';
 
 @Component({
   selector: 'app-user-register',
