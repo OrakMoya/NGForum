@@ -18,6 +18,7 @@ export class InputComponent implements ControlValueAccessor {
   placeholder = input("");
   type = input("text");
   value = "";
+  disabled = false;
   valuechange = output<string>();
   onChange: (value: string) => void = (_) => { };
   onTouched: () => void = () => { };
@@ -33,6 +34,7 @@ export class InputComponent implements ControlValueAccessor {
     this.onTouched = onTouched;
   }
   setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   getValue($event: Event): string {

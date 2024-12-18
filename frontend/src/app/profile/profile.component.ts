@@ -1,5 +1,4 @@
 import { Component, computed, inject } from '@angular/core';
-import { Post } from '../types';
 import { PostsService } from '../posts.service';
 import { AuthService } from '../auth.service';
 import { PostComponent } from '../post/post.component';

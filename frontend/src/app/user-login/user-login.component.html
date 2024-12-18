@@ -5,13 +5,12 @@
       <app-input type="email" placeholder="" formControlName="email" />
 
       <label>Password</label>
-      <app-input type="password" placeholder="" formControlName="password" class="mb-2" />
+      <app-input  type="password" placeholder="" formControlName="password" class="mb-2" />
       @if(error){
       <span>{{error}}</span>
-
       }
 
-      <button type="submit" class="bg-green-400 rounded-md px-2 py-1 disabled:opacity-50 mb-2"
+      <button type="submit" class="bg-green-600 text-white rounded-md px-2 py-1 disabled:opacity-50 mb-2"
         [disabled]="loginForm.invalid">
         Log in
       </button>

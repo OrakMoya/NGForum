@@ -1,1 +1,2 @@
-<input [type]="type()" (change)="onChange(getValue($event))" class="border border-neutral-200 rounded-md px-1 mb-1" />
+<input [disabled]="disabled" [type]="type()" (input)="onChange(getValue($event))" (focus)="onTouched()"
+  class="border border-neutral-200 rounded-md px-1 mb-1" />

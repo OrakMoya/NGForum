@@ -1,9 +1,23 @@
-<div class="text-xl font-semibold italic mb-4 indent-0 sm:indent-4">
-  Your posts
-  <span class="animate-spin">{{'('+myPosts().length+')'}}</span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-  @for(post of myPosts(); track post){
-  <app-post [post]="post" />
-  }
+<div class="flex flex-col-reverse sm:flex-row justify-start sm:justify-around">
+  <div class="w-full">
+    <div class="text-xl font-semibold italic mb-4 indent-0 sm:indent-4">
+      Your posts
+      <span class="animate-spin">{{'('+myPosts().length+')'}}</span>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+      @for(post of myPosts(); track post){
+      <app-post [post]="post" />
+      }
+    </div>
+  </div>
+  <div class="w-fit">
+    <div class="text-xl font-semibold italic mb-4 indent-0 sm:indent-4">
+      User data
+    </div>
+    <div class="p-4 border border-neutral-400 bg-neutral-100 rounded-md flex flex-col gap-y-1 min-w-fit text-nowrap">
+      <span>Username: {{authService.user()?.username ?? '[none]'}}</span>
+      <span>Display name: {{authService.user()?.displayName ?? '[none]'}}</span>
+      <span>Email: {{authService.user()?.email}}</span>
+    </div>
+  </div>
 </div>

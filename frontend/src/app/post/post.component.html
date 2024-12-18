@@ -9,7 +9,7 @@
     <p class="text-lg">{{post().contents}}</p>
     }
     @else{
-    <textarea [(ngModel)]="editedContents"></textarea>
+    <textarea class="text-lg rounded-md border p-1" [(ngModel)]="editedContents"></textarea>
     }
 
     @if(authService.user()?.id === post().author_id){

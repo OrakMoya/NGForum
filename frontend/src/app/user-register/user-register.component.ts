@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 import { CardComponent } from '../card/card.component';
 import { InputComponent } from '../input/input.component';
+import { error } from 'console';
 
 @Component({
   selector: 'app-user-register',
@@ -31,6 +32,10 @@ export class UserRegisterComponent {
   }
 
   handleSubmit() {
+    if (this.registerForm.value.password !== this.registerForm.value.password_confirmation) {
+      this.error = "Passwords don't match";
+      return;
+    }
     this.authService.register({
       username: this.registerForm.value.username ?? "",
       display_name: this.registerForm.value.display_name ?? "",

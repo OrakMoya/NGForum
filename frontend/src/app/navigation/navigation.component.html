@@ -1,15 +1,21 @@
-<div class="flex p-4 gap-4 max-w-screen-md mx-auto">
-  <a routerLink="/"><app-nav-button>Home</app-nav-button></a>
+<div class="flex justify-between p-4 gap-4 max-w-screen-md mx-auto">
+  <div class="flex gap-4">
+    <a routerLink="/"><app-nav-button>Home</app-nav-button></a>
+  </div>
+  <div class="flex gap-4 justify-end">
+    @if(authService.user()){
+    <span>
+      Welcome, <a routerLink="/profile" class="underline ">{{authService.user()?.displayName?.split("
+        ")?.at(0) }}</a>
+    </span>
+    <a href="/logout"><app-nav-button>Logout</app-nav-button></a>
+    }
+    @else{
+    <a routerLink="/login"><app-nav-button>Login</app-nav-button></a>
+    <a routerLink="/register"><app-nav-button>Register</app-nav-button></a>
 
-  @if(authService.user()){
-  <a routerLink="/profile"><app-nav-button>Profile</app-nav-button></a>
-  <a href="/logout"><app-nav-button>Logout</app-nav-button></a>
-  }
-
-  @else {
-  <a routerLink="/login"><app-nav-button>Login</app-nav-button></a>
-  <a routerLink="/register"><app-nav-button>Register</app-nav-button></a>
-  }
+    }
+  </div>
 
 
 </div>
