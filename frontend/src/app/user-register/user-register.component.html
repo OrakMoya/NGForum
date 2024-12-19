@@ -17,15 +17,14 @@
       <app-input type="password" placeholder="" formControlName="password_confirmation" class="mb-2" />
 
       @if(error){
-      <span class="w-full bg-red-500 text-white flex justify-center px-2 py-1 mb-2 rounded-md">
-        {{error}}
-      </span>
+      <span class="px-2 text-sm py-1 bg-red-200 border border-red-500 rounded-md mb-2">{{error}}</span>
       }
 
       <button type="submit" class="bg-green-600 text-white rounded-md px-2 py-1 disabled:opacity-50 mb-2"
         [disabled]="registerForm.invalid">Register</button>
 
-      <span class="text-sm wrap italic text-neutral-500">Already have an account? <a class="underline" [routerLink]="['/login']">Log in</a></span>
+      <span class="text-sm wrap italic text-neutral-500">Already have an account? <a class="underline"
+          [routerLink]="['/login']">Log in</a></span>
     </form>
   </app-card>
 </div>

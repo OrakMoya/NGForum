@@ -7,17 +7,18 @@ import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
-    path: '', component: HomeComponent
+    path: '', component: HomeComponent, title: 'Posts - NGForum'
   },
   {
-    path: 'login', component: UserLoginComponent
+    path: 'login', component: UserLoginComponent, title: 'Login - NGForum'
   },
   {
-    path: 'register', component: UserRegisterComponent
+    path: 'register', component: UserRegisterComponent, title: 'Register - NGForum'
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    title: 'Profile - NGForum'
   }
 ];

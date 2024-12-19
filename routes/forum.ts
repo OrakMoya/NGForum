@@ -21,7 +21,7 @@ guestRoutes.get("/api/user", (req, res) => {
 		res.json(user);
 		return;
 	}
-	res.json(null);
+	res.json();
 });
 
 guestRoutes.post("/api/register", jsonParser, registerStore);

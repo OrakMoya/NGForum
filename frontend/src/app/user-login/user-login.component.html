@@ -7,7 +7,7 @@
       <label>Password</label>
       <app-input  type="password" placeholder="" formControlName="password" class="mb-2" />
       @if(error){
-      <span>{{error}}</span>
+      <span class="px-2 text-sm py-1 bg-red-200 border border-red-500 rounded-md mb-2">{{error}}</span>
       }
 
       <button type="submit" class="bg-green-600 text-white rounded-md px-2 py-1 disabled:opacity-50 mb-2"
