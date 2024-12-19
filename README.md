@@ -1,3 +1,9 @@
+### Installing node modules
+```bash
+npm i 
+cd frontend
+npm i
+```
 
 ### Building
 ```bash
