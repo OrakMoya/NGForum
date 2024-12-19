@@ -36,13 +36,12 @@ export async function index(req: express.Request, res: express.Response, next: e
 	res.json(posts)
 }
 
-export function store(req: express.Request, res: express.Response, next: express.NextFunction) {
-	Post.create({
+export async function store(req: express.Request, res: express.Response, next: express.NextFunction) {
+	let data = Post.create({
 		author: req.session.user ?? throwExpression("Tried to create post by unauthenticated user"),
 		contents: req.body.contents
-	}).then(
-		(data) => res.json(data)
-	);
+	});
+	res.json(data)
 }
 
 

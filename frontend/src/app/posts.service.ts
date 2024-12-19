@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Post } from './types';
-import { BehaviorSubject, EMPTY, Observable, ReplaySubject, share, shareReplay, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, of, ReplaySubject, share, shareReplay, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from './auth.service';
 
@@ -37,7 +37,7 @@ export class PostsService {
   public refreshPosts() {
     this.httpClient
       .get<Post[]>("/api/posts")
-      .pipe(shareReplay())
+      .pipe(shareReplay(), catchError(_ => of([])))
       .subscribe((data) => this.posts$.next(data));
   }
 
@@ -46,7 +46,9 @@ export class PostsService {
     let promise = this.httpClient
       .post<HttpResponse<Object>>("/api/posts", props)
       .pipe(shareReplay());
-    promise.subscribe(() => this.refreshPosts());
+    promise
+      .pipe(catchError(_ => EMPTY))
+      .subscribe(() => this.refreshPosts());
     return promise;
   }
 
@@ -54,7 +56,9 @@ export class PostsService {
     let promise = this.httpClient
       .patch("/api/posts", props)
       .pipe(shareReplay());
-    promise.subscribe(() => this.refreshPosts());
+    promise
+      .pipe(catchError(_ => EMPTY))
+      .subscribe(() => this.refreshPosts());
     return promise;
   }
 
@@ -62,13 +66,15 @@ export class PostsService {
     let promise = this.httpClient
       .delete("/api/posts/" + id)
       .pipe(shareReplay());
-    promise.subscribe((res) => this.refreshPosts());
+    promise
+      .pipe(catchError(_ => EMPTY))
+      .subscribe(_ => this.refreshPosts());
     return promise;
   }
 
   public getPostsByMe() {
     return this.httpClient
       .get<Post[]>("/api/posts", { params: { authorId: this.authService.user()?.id ?? '' } })
-      .pipe(shareReplay())
+      .pipe(shareReplay(), catchError(_ => of([])))
   }
 }

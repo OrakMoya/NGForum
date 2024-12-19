@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, ReplaySubject, shareReplay, Subject } from 'rxjs';
+import { catchError, EMPTY, Observable, ReplaySubject, shareReplay, Subject } from 'rxjs';
 import { User } from './types';
 
 // User ima vrijednost undefined kada jos
@@ -36,6 +36,7 @@ export class AuthService {
 
   private checkAuthState() {
     this.httpClient.get<User>("/api/user")
+      .pipe(catchError(_ => EMPTY))
       .subscribe(res => this.user$.next(res));
   }
 
@@ -50,7 +51,9 @@ export class AuthService {
         password_confirmation: params.password_confirmation
       })
       .pipe(shareReplay());
+
     promise
+      .pipe(catchError(_ => EMPTY))
       .subscribe((status) => { // Refresh auth state after register
         this.checkAuthState();
       })
@@ -65,7 +68,11 @@ export class AuthService {
         password: password
       })
       .pipe(shareReplay());
+
     promise
+      .pipe(
+        catchError(_ => EMPTY)
+      )
       .subscribe(() => {
         this.checkAuthState();
       })

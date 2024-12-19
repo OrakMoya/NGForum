@@ -30,26 +30,26 @@ export async function store(req: express.Request, res: express.Response, next: e
 	}
 
 
-	let salt = await bcrypt.genSalt();
-	let hash = await bcrypt.hash(password, salt);
-	User.create({
-		username: body.username,
-		displayName: body.display_name,
-		email: body.email,
-		passwordHash: hash
-	})
-		.then((data) => {
-			let user = new User({
-				id: data.id,
-				username: req.body.username,
-				displayName: req.body.display_name,
-				email: req.body.email
-			})
-			req.session.user = user;
-			req.session.save();
-			res.status(200).send();
+	try {
+		let salt = await bcrypt.genSalt();
+		let hash = await bcrypt.hash(password, salt);
+		let doc = await User.create({
+			username: body.username,
+			displayName: body.display_name,
+			email: body.email,
+			passwordHash: hash
 		})
-		.catch((e) => {
-			res.status(500).json(e);
-		});
+		let user = new User({
+			id: doc.id,
+			username: req.body.username,
+			displayName: req.body.display_name,
+			email: req.body.email
+		})
+		req.session.user = user;
+		req.session.save();
+		res.status(200).send();
+
+	} catch (e) {
+		res.status(500).json(e);
+	}
 }
