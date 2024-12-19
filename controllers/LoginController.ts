@@ -17,5 +17,5 @@ export async function store(req: express.Request, res: express.Response, next: e
 			return;
 		}
 	}
-	res.status(400).json({ email: "Invalid email or password" });
+	res.status(403).json({ email: "Invalid email or password" });
 }

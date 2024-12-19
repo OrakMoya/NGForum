@@ -50,6 +50,7 @@ export async function store(req: express.Request, res: express.Response, next: e
 		res.status(200).send();
 
 	} catch (e) {
+		console.log(e);
 		res.status(500).json(e);
 	}
 }
