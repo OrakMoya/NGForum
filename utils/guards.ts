@@ -6,7 +6,7 @@ export function auth(req: express.Request, res: express.Response, next: express.
 		next();
 		return;
 	}
-	if(req.accepts("/login")){
+	if(req.accepts("html")){
 		res.redirect("/login")
 		return;
 	}
