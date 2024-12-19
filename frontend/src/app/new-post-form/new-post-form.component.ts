@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PostsService } from '../posts.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-new-post-form',
@@ -9,6 +10,7 @@ import { PostsService } from '../posts.service';
   styleUrl: './new-post-form.component.css'
 })
 export class NewPostFormComponent {
+  authService = inject(AuthService);
   postForm = new FormGroup({
     contents: new FormControl('', Validators.required)
   });

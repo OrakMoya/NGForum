@@ -1,7 +1,7 @@
 <form [formGroup]="postForm" (ngSubmit)="handleSubmit()"
   class="flex flex-col justify-start border border-neutral-500 rounded-md bg-neutral-100 overflow-clip">
   <div class="bg-neutral-200 px-4 py-2">
-    <textarea class="w-full bg-transparent min-h-10" placeholder="Type here..." formControlName="contents"></textarea>
+    <textarea class="w-full bg-transparent min-h-10" placeholder="Post as {{authService.user()?.displayName}}..." formControlName="contents"></textarea>
   </div>
   <div>
     <button type="submit" class="px-4 py-2 bg-green-400 disabled:opacity-50 text-sm transition-colors "
