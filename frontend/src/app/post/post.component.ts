@@ -14,7 +14,7 @@ export class PostComponent {
   authService = inject(AuthService);
   postsService = inject(PostsService);
   post = model.required<Post>();
-  date = computed(() => new Date(this.post().timestamp * 1000));
+  date = computed(() => new Date(this.post().timestamp));
   editing = false;
   editedContents = "";
   changed = output();
