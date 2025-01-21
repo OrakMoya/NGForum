@@ -1,8 +1,8 @@
 import { Timestamp } from "firebase-admin/firestore";
-import { User } from "models/user.js";
-import { db } from "db/index.js";
-import { postsTable, usersTable } from "db/schema.js";
 import { eq } from "drizzle-orm";
+import { User } from "./user";
+import { db } from "../db";
+import { postsTable } from "../db/schema";
 
 export class Post {
 

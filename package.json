@@ -2,11 +2,11 @@
   "name": "ngforum",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx server.ts",
-    "dev": "tsx server.ts"
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --ignore frontend/ server.ts"
   },
   "keywords": [],
   "author": "",

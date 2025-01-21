@@ -1,7 +1,7 @@
 
 import express from "express";
-import { User } from "models/user.js";
 import bcrypt from "bcrypt";
+import { User } from "../models/user";
 
 export async function store(req: express.Request, res: express.Response, next: express.NextFunction) {
 	let body: { username: string, display_name: string, email: string, password: string, password_confirmation: string } = req.body;

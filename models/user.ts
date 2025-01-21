@@ -1,7 +1,7 @@
 
-import { db } from "db/index.js";
-import { usersTable } from "db/schema.js";
 import { eq, inArray } from "drizzle-orm";
+import { db } from "../db";
+import { usersTable } from "../db/schema";
 
 export class User {
 	id: number = 0;

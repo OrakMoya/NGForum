@@ -1,7 +1,7 @@
 import express from "express";
-import { Post } from "models/post.js";
-import { throwExpression } from "utils/misc.js";
-import { User } from "models/user.js";
+import { Post } from "../models/post";
+import { User } from "../models/user";
+import { throwExpression } from "../utils/misc";
 
 export async function index(req: express.Request, res: express.Response, next: express.NextFunction) {
 	let targetAuthor = req.query.authorId;

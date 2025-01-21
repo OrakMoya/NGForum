@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { User } from "models/user.js";
+import { User } from "../models/user";
 
 export async function store(req: express.Request, res: express.Response, next: express.NextFunction) {
 	let email = req.body.email;
