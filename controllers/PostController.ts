@@ -1,35 +1,35 @@
 import express from "express";
-import { Post } from "../models/post";
-import { throwExpression } from "../utils/misc";
-import { User } from "../models/user";
+import { Post } from "models/post.js";
+import { throwExpression } from "utils/misc.js";
+import { User } from "models/user.js";
 
 export async function index(req: express.Request, res: express.Response, next: express.NextFunction) {
 	let targetAuthor = req.query.authorId;
 
-	let snapshot = targetAuthor && typeof (targetAuthor) == 'string' ? await Post.byAuthorId(targetAuthor) : await Post.all();
-	if (snapshot.empty) {
+	let results = targetAuthor && typeof (targetAuthor) == 'number' ? await Post.byAuthorId(targetAuthor) : await Post.all();
+	if (!results) {
 		res.json([]);
 		return;
 	}
 
 	let posts: Post[] = [];
-	let authorIds: string[] = [];
+	let authorIds: number[] = [];
 
 
-	snapshot.forEach((doc) => {
-		authorIds.push(doc.data().author_id);
+	results.forEach((doc) => {
+		authorIds.push(doc.author_id);
 	});
 
 	let authors = await User.byIds(authorIds);
 
-	snapshot.forEach((doc) => {
+	results.forEach((doc) => {
 		posts.push(
 			new Post(
 				doc.id,
-				doc.data().author_id,
-				doc.data().contents,
-				doc.data().timestamp._seconds,
-				authors.find((author) => author.id == doc.data().author_id) ?? null
+				doc.author_id,
+				doc.contents,
+				doc.timestamp.getTime(),
+				authors.find((author) => author.id == doc.author_id) ?? null
 			)
 		)
 	})
@@ -48,11 +48,11 @@ export async function store(req: express.Request, res: express.Response, next: e
 export async function update(req: express.Request, res: express.Response, next: express.NextFunction) {
 	let post = await Post.byId(req.body.id);
 
-	if (post.size == 0) {
+	if (!post) {
 		res.status(404).json("Post not found.");
 		return;
 	}
-	if (post.docs[0].data().author_id !== req.session.user?.id) {
+	if (post.author_id !== req.session.user?.id) {
 		res.status(403);
 		return;
 	}
@@ -66,18 +66,18 @@ export async function update(req: express.Request, res: express.Response, next: 
 }
 
 export async function destroy(req: express.Request, res: express.Response, next: express.NextFunction) {
-	let post = await Post.byId(req.params.id);
+	let post = await Post.byId(Number(req.params.id));
 
-	if (post.size == 0) {
+	if (!post) {
 		res.status(404).json("Post not found.");
 		return;
 	}
-	if (post.docs[0].data().author_id !== req.session.user?.id) {
+	if (post.author_id !== req.session.user?.id) {
 		res.status(403);
 		return;
 	}
 
-	await Post.delete(req.params.id);
+	await Post.delete(Number(req.params.id));
 	res.send();
 
 }

@@ -1,50 +1,50 @@
 import { Timestamp } from "firebase-admin/firestore";
-import db from "../utils/database";
-import { User } from "./user";
-import { firestore } from "firebase-admin";
+import { User } from "models/user.js";
+import { db } from "db/index.js";
+import { postsTable, usersTable } from "db/schema.js";
+import { eq } from "drizzle-orm";
 
 export class Post {
 
 	constructor(
-		public id: string,
-		public author_id: string,
+		public id: number,
+		public author_id: number,
 		public contents: string,
 		public timestamp: number,
 		public author: User | null
 	) { }
 
-	static postsRef = db.collection("posts");
 
-	public static all() {
-		return this.postsRef.get();
+	public static async all() {
+		return await db.select().from(postsTable);
 	}
 
-	public static create(props: { contents: string, author: User }) {
-		return this.postsRef.doc()
-			.set(
-				{
-					author_id: props.author.id,
-					contents: props.contents,
-					timestamp: Timestamp.now()
-				}
-			);
-	}
-	public static byAuthorId(targetAuthor: string) {
-		return this.postsRef.where('author_id', '==', targetAuthor).get();
+	public static async create(props: { contents: string, author: User }) {
+		return await db.insert(postsTable)
+			.values({
+				author_id: props.author.id,
+				contents: props.contents
+			})
 	}
 
-	public static byId(id: string) {
-		return this.postsRef.where(firestore.FieldPath.documentId(), '==', id).get();
+	public static async byAuthorId(targetAuthor: number) {
+
+		return await db.select().from(postsTable).where(eq(postsTable.author_id, targetAuthor));
 	}
 
-	public static update(props: { id: any; contents: any; }) {
-		return this.postsRef.doc(props.id)
-			.set({ contents: props.contents }, {
-				merge: true
-			});
+	public static async byId(id: number) {
+		return (await db.select().from(postsTable).where(eq(postsTable.id, id))).at(0);
 	}
 
-	static delete(id: string) {
-		return this.postsRef.doc(id).delete();
+	public static async update(props: { id: number; contents: string; }) {
+		return await db.update(postsTable)
+			.set({
+				contents: props.contents
+			}).where(eq(postsTable.id, props.id))
+	}
+
+	public static async delete(id: number) {
+		return await db.delete(postsTable)
+			.where(eq(postsTable.id, id));
 	}
 }

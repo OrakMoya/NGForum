@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { destroy as postsDestroy, index as postsIndex, store as postsStore, update as postsUpdate } from '../controllers/PostController';
-import { store as registerStore } from '../controllers/RegisterController';
+import { destroy as postsDestroy, index as postsIndex, store as postsStore, update as postsUpdate } from 'controllers/PostController.js';
+import { store as registerStore } from 'controllers/RegisterController.js';
 import bodyParser from "body-parser";
-import { store as loginStore } from '../controllers/LoginController';
-import { auth } from '../utils/guards';
+import { store as loginStore } from 'controllers/LoginController.js';
+import { auth } from 'utils/guards.js';
 
 const routes = Router();
 const guestRoutes = Router();

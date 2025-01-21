@@ -1,6 +1,6 @@
 
 import express from "express";
-import { User } from "../models/user";
+import { User } from "models/user.js";
 import bcrypt from "bcrypt";
 
 export async function store(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -33,18 +33,13 @@ export async function store(req: express.Request, res: express.Response, next: e
 	try {
 		let salt = await bcrypt.genSalt();
 		let hash = await bcrypt.hash(password, salt);
-		let doc = await User.create({
+		await User.create({
 			username: body.username,
 			displayName: body.display_name,
 			email: body.email,
 			passwordHash: hash
 		})
-		let user = new User({
-			id: doc.id,
-			username: req.body.username,
-			displayName: req.body.display_name,
-			email: req.body.email
-		})
+		let user = await User.byEmail(body.email);
 		req.session.user = user;
 		req.session.save();
 		res.status(200).send();

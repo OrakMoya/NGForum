@@ -1,18 +1,17 @@
 
-import { firestore } from "firebase-admin";
-import db from "../utils/database";
+import { db } from "db/index.js";
+import { usersTable } from "db/schema.js";
+import { eq, inArray } from "drizzle-orm";
 
 export class User {
-	id: string = "";
+	id: number = 0;
 	username: string = "";
 	email: string = "";
 	displayName: string = "";
 	password: string = "";
 
-	static userRef = db.collection("users");
-
 	constructor(params: {
-		id: string,
+		id: number,
 		username: string,
 		email: string,
 		displayName: string,
@@ -28,46 +27,53 @@ export class User {
 
 	}
 
-	public static create(params: {
+	public static async create(params: {
 		username: string,
 		displayName: string,
 		email: string,
 		passwordHash: string
 	}) {
-		return User.userRef.add({
-			username: params.username,
-			displayName: params.displayName,
-			email: params.email,
-			password: params.passwordHash
-		})
+		return db.insert(usersTable)
+			.values({
+				username: params.username,
+				displayName: params.displayName,
+				email: params.email,
+				password: params.passwordHash
+			});
 	}
 
 	public static async byEmail(email: string) {
-		const snapshot = await User.userRef.where('email', '==', email)
-			.limit(1)
-			.get();
-		if (snapshot.empty) return null;
+		let results = await db.select()
+			.from(usersTable)
+			.where(eq(usersTable.email, email))
+			.limit(1);
 
-		let doc = snapshot.docs[0];
+		let row = results.at(0);
+		if(!row) 
+			return null;
+		
 		return new User({
-			id: doc.id,
-			username: doc.data().username,
-			displayName: doc.data().displayName,
-			email: doc.data().email,
-			password: doc.data().password
+			id: row.id,
+			username: row.username,
+			displayName: row.displayName,
+			email: row.email,
+			password: row.password
 		});
 	}
 
-	public static async byIds(ids: string[]) {
-		let docs = await User.userRef.where(firestore.FieldPath.documentId(), 'in', ids).get();
+	public static async byIds(ids: number[]) {
+		let results = await db.select()
+			.from(usersTable)
+			.where(inArray(usersTable.id, ids))
+
 		let users: User[] = [];
-		docs.forEach((doc) => users.push(
+		results.forEach((res) => users.push(
 			{
-				id: doc.id,
-				username: "",
-				displayName: doc.data().displayName,
-				email: "",
-				password: ""
+				id: res.id,
+				username: res.username,
+				displayName: res.displayName,
+				email: res.email,
+				password: res.password
 			}
 		))
 		return users;

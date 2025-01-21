@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import forum from "./routes/forum";
+import forum from "routes/forum.js";
 import dotenv from "dotenv";
 import session from "express-session";
-import { throwExpression } from "./utils/misc";
+import { throwExpression } from "utils/misc.js";
 
 
 dotenv.config()
@@ -36,6 +36,7 @@ app.get('/logout', (req, res) => {
 
 // Forward all other requests to angular
 app.all('*', (req, res) => {
+	// @ts-expect-error
 	res.status(200).sendFile('/', { root: frontendFolder })
 })
 

@@ -1,7 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { User } from "../models/user";
-import { UserMetadata } from "firebase-admin/lib/auth/user-record";
+import { User } from "models/user.js";
 
 export async function store(req: express.Request, res: express.Response, next: express.NextFunction) {
 	let email = req.body.email;
